@@ -1,0 +1,214 @@
+/*Exercicio 1*/
+<?php
+$valor1 = 7;
+$valor2 = 16;
+$valor3 = 8;
+
+$total = $valor1 + $valor2 + $valor3;
+
+if ($valor1 > 10) {
+    echo "<p style='color: blue;'>Resultado: $total</p>";
+} elseif ($valor2 < $valor3) {
+    echo "<p style='color: green;'>Resultado: $total</p>";
+} elseif ($valor3 < $valor1 && $valor3 < $valor2) {
+    echo "<p style='color: red;'>Resultado: $total</p>";
+} else {
+    echo "<p>Resultado é: $total</p>";
+}
+?>
+
+/*Exercicio2*/
+<?php
+$numero = 4;
+
+if ($numero % 2 == 0) {
+    echo "Valor divisível por 2";
+} else {
+    echo "O valor não é divisível por 2";
+}
+?>
+
+/*Exercicio 3*/
+
+<?php
+$lado = 6;
+
+$areaTotal = $lados * $lados;
+
+echo "A área do quadrado de lado $lado metros é $areaTotal metros quadrados.";
+?>
+
+/*Exercicio 4*/
+
+<?php
+$a = 6;
+$b = 7;
+
+$total = $a * $b;
+
+if ($total > 10) {
+    echo "<h1>A área do retângulo de lados $a e $b metros é $total metros quadrados.</h1>";
+} else {
+    echo "<h3>A área do retângulo de lados $a e $b metros é $total metros quadrados.</h3>";
+}
+?>
+
+/*Exercicio 5*/
+
+<?php
+$base = 6;
+$altura = 7;
+
+$total = ($base * $altura) / 2;
+
+echo "A área do triângulo retângulo é: $base metros e altura $altura metros, que é igual a $total metros quadrados.";
+?>
+
+/*Exercicio 6*/
+
+<?php
+$dinheiro = 50;
+
+$kgmaca = 16.99; 
+$kgmelancia = 1.50; 
+$kglaranja = 7.99; 
+$kgrepolhorx = 1.75; 
+$kgcenoura = 3.99; 
+$kgbatatalv = 3.67; 
+
+$qtdemaca = 5;
+$qtdemelancia = 1;
+$qtdelaranja = 6;
+$qtderepolho = 2;
+$qtdecenoura = 6;
+$qtdebatata = 10;
+
+$totalMaca = $kgmaca * $qtdemaca;
+$totalMelancia = $kgmelancia * $qtdemelancia;
+$totalLaranja = $kglaranja * $qtdelaranja;
+$totalRepolho = $kgrepolhorx * $qtderepolho;
+$totalCenoura = $kgcenoura * $qtdecenoura;
+$totalBatata = $kgbatatalv * $qtdebatata;
+
+$gasto = $totalMaca + $totalMelancia + $totalLaranja + $totalRepolho + $totalCenoura + $totalBatata;
+
+echo "O valor total das compras foram R$ $gasto <br>;
+
+if ($gasto < $dinheiro) {
+    $resto = $dinheiro - $gasto;
+    echo "<p style='color: blue;'>Joãozinho pode gastar ainda R$ $resto </p>;
+} elseif ($gasto > $dinheiro) {
+    $falta = $gasto - $dinheiro;
+    echo "<p style='color: red;'>Falta para ele R$ $falta para pagar a conta </p>;
+} else {
+    echo "<p style='color: green;'>O saldo para compras foi esgotado.</p>";
+}
+?>
+
+/*Exercicio 7*/
+
+<?php
+$avista = 22500;
+$parcela = 60;
+$valorParcela = 489.65;
+
+$pago = $parcela * $valorParcela;
+
+$juros = $pago - $avista;
+
+echo "O valor à vista é R$ $avista <br>;
+echo "O valor total do financiamento é R$ $pago <br>;
+echo "O valor de juros é R$ $juros;
+?>
+
+/*Exercicio 8*/
+
+<?php
+$valor = 8654;
+$taxa = 1.5;
+$parcela = [24, 36, 48, 60];
+
+function calculo_da_parcela($v, $t, $p) {
+    $juros = ($v * ($t / 100) * $p);
+    $total = $valor + $juros;
+    return $total / $p;
+}
+
+foreach ($parcela as $p) {
+    $t = $taxa + (0.5 * (($p / 12) - 2));
+    $valorParcela = calculo_da_parcela($valor, $t, $p);
+    echo "Valor da parcela para $p vezes e com taxa de juros de $t % é R$ $valorParcela <br>;
+}
+?>
+
+/*Exercicio 9*/
+
+<?php
+$valor_avista = 8654.00; 
+$taxa_inicial = 2.0; 
+$parcelas = [24, 36, 48, 60];
+
+function calcular_parcela($valor, $taxa, $n) {
+    $i = $taxa / 100; 
+    $montante = $valor * pow((1 + $i), $n);
+    return $montante / $n;
+}
+
+foreach ($parcelas as $n) {
+    $taxa = $taxa_inicial + (0.3 * (($n / 12) - 2));
+    $valor_parcela = calcular_parcela($valor_avista, $taxa, $n);
+    echo "Valor da parcela para $n vezes com taxa de juros de " . number_format($taxa, 1) . "% é R$ " . number_format($valor_parcela, 2, ',', '.') . ".<br>";
+}
+?>
+
+/* Exercicio 10*/
+
+<?php
+class Node {
+    public $name;
+    public $children;
+
+    public function __construct($name) {
+        $this->name = $name;
+        $this->children = [];
+    }
+
+    public function addChild($child) {
+        $this->children[] = $child;
+    }
+}
+
+function buildTree($array) {
+    $node = new Node(key($array));
+    foreach ($array[$node->name] as $key => $value) {
+        if (is_array($value)) {
+            $childNode = buildTree([$key => $value]);
+            $node->addChild($childNode);
+        } else {
+            $childNode = new Node($value);
+            $node->addChild($childNode);
+        }
+    }
+    return $node;
+}
+
+function displayTree($node, $indent = 0) {
+    echo str_repeat(' ', $indent) . $node->name . "\n";
+    foreach ($node->children as $child) {
+        displayTree($child, $indent + 2);
+    }
+}
+
+$pastas = array(
+    "bsn" => array(
+        "3a fase" => array("desenvWeb", "bancoDados 1", "engSoft 1"),
+        "4a fase" => array("Intro Web", "bancoDados 2", "engSoft 2")
+    )
+);
+
+$treeRoot = buildTree($pastas);
+
+echo "Estrutura das Pastas:\n";
+displayTree($treeRoot);
+?>
+
